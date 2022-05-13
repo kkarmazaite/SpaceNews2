@@ -12,19 +12,18 @@
 
 <script lang='ts'>
 
-import Vue from 'vue'
-import {computed,  useRoute, ref} from "@nuxtjs/composition-api"
+import {computed,  useRoute, ref, defineComponent} from "@nuxtjs/composition-api"
 import ArticleInterface from '@/types/ArticleInterface'
 import ArticleService from '~/services/ArticleService'
 
-export default Vue.extend({
+export default defineComponent({
     setup(){
         const route = useRoute()
         const id = computed(() => {
             return Number(route.value.params.id)
             })
 
-        const  article = ref<ArticleInterface>({})
+        const  article = ref<ArticleInterface>(<ArticleInterface>{})
 
         ArticleService.getArticle(id.value)
             .then(response => { 

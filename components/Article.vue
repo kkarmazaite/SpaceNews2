@@ -14,18 +14,17 @@
 
 <script lang="ts">
 
-import Vue, { PropType } from 'vue'
 import ArticleInterface from '@/types/ArticleInterface'
-import { useRouter} from '@nuxtjs/composition-api'
+import { defineComponent, useRouter,  PropType} from '@nuxtjs/composition-api'
 
-export default Vue.extend({
+export default defineComponent({
     name: "Article",
     props: {
         article:{
             type: Object as PropType<ArticleInterface>,
             required: true
         }
-    },
+    } ,
     setup(props){
 
         const router = useRouter()
