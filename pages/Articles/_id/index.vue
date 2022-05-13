@@ -12,31 +12,32 @@
 
 <script lang='ts'>
 
-import {computed,  useRoute, ref, defineComponent} from "@nuxtjs/composition-api"
+import {computed,  useRoute, ref, defineComponent, reactive} from "@nuxtjs/composition-api"
 import ArticleInterface from '@/types/ArticleInterface'
 import ArticleService from '~/services/ArticleService'
 
 export default defineComponent({
     setup(){
         const route = useRoute()
-        const id = computed(() => {
+        const id = computed<number>(() => {
             return Number(route.value.params.id)
             })
 
-        const  article = ref<ArticleInterface>(<ArticleInterface>{})
+        // const  article = ref<ArticleInterface>(<ArticleInterface>{})
+        let  article = reactive(<ArticleInterface>{})
 
         ArticleService.getArticle(id.value)
             .then(response => { 
-                article.value = response.data
+                article= response.data
                 })  
             .catch((error:any) => {
                 return error({ statusCode: 503, message: 'Unable to fetch articles at this time, please try again' })
             })  
  
-        const  published = computed<string>(() => (article.value.publishedAt) ? article.value.publishedAt.slice(0, 10): "")
+        const  published = computed<string>(() => (article.publishedAt) ? article.publishedAt.slice(0, 10): "")
 
         function goToFullArticle(){
-            window.open(article.value.url, '_blank')!.focus();
+            window.open(article.url, '_blank')!.focus();
         }
 
         return{
